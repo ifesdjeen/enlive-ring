@@ -80,6 +80,6 @@ Content of `templates/header.html`
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 Alex Petrov
 
 Distributed under the Eclipse Public License, the same as Clojure.
