@@ -20,7 +20,7 @@ it's either a self-contained page (rarely true in bigger applications), or a con
 
 Now, you can start writing selectors and transformations for the given selectors. Let's add a title to the template. Given that your template already has `<head>` and `<title>` tags, let's insert a title.
 
-Content of `templates/application.html`:
+Content of [templates/application.html](https://github.com/ifesdjeen/enlive-ring/blob/master/src/templates/application.html):
 
 ```html
 <!DOCTYPE html>
@@ -33,10 +33,13 @@ Content of `templates/application.html`:
 </html>
 ```
 
+[Our template](https://github.com/ifesdjeen/enlive-ring/blob/master/src/com/ifesdjeen/enlive_ring/core.clj#L26-L29) in that case would look like:
+
 ```clojure
 (html/deftemplate main-template "templates/application.html"
-  []
-  [:head :title] (html/content "Enlive starter kit"))
+  [{:keys [path]}]
+  [:head :title] (html/content "Enlive starter kit")
+  [:body] (html/append (header path)))
 ```
 
 Here, `[:head :title]` is a selector, pretty much like a css
@@ -52,30 +55,41 @@ and may serve as a container for other snippets.
 
 Let's add several snippets. For example, navigation and some
 content. For that, let's first define a template for the navigation.
-Content of `templates/header.html`
+Content of [templates/header.html](https://github.com/ifesdjeen/enlive-ring/blob/master/src/templates/header.html)
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <body>
-    <header>
-      <h1>Header placeholder</h1>
-      <ul id="navigation">
-        <li><a href="#">Placeholder for navigation</a></li>
-      </ul>
-    </header>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Project name</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#">Home</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
   </body>
 </html>
 ```
 
+Now, [header snippet](https://github.com/ifesdjeen/enlive-ring/blob/master/src/com/ifesdjeen/enlive_ring/core.clj#L15-L24):
+
 ```clojure
-(html/defsnippet main-template "templates/header.html"
-  [:header]
-  [heading navigation-elements]
-  [:h1] (html/content heading)
-  [:ul [:li html/first-of-type]] (html/clone-for [[caption url] navigation-elements]
-                                                 [:li :a] (html/content caption)
-                                                 [:li :a] (html/set-attr :href url)))
+(html/defsnippet header "templates/header.html"
+  [:body :div.navbar]
+  [current-path]
+  [:a.brand] (html/content "Enlive starter kit")
+  [:ul.nav [:li html/first-of-type]] (html/clone-for [[caption url] navigation-items]
+                                                     [:li] (if (= current-path url)
+                                                             (html/set-attr :class "active")
+                                                             identity)
+                                                     [:li :a] (html/content caption)
+                                                     [:li :a] (html/set-attr :href url)))
 ```
 
 ## License
