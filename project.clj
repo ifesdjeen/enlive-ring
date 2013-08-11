@@ -7,5 +7,7 @@
   :dependencies [[ring "1.2.0-SNAPSHOT"]
                  [compojure "1.1.3" :exclude [clout]]
                  [clout "1.1.0"]
-                 [enlive "1.0.1"]
-                 [org.clojure/clojure "1.4.0"]])
+                 [enlive "1.1.1"]
+                 [org.clojure/clojure "1.4.0"]]
+  :plugins [[lein-ring "0.8.6"]]
+  :ring {:handler com.ifesdjeen.enlive-ring.core/app})

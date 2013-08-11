@@ -92,6 +92,14 @@ Now, [header snippet](https://github.com/ifesdjeen/enlive-ring/blob/master/src/c
                                                      [:li :a] (html/set-attr :href url)))
 ```
 
+# Running server
+
+In order to start the server, run:
+
+```
+lein ring server
+```
+
 ## License
 
 Copyright © 2013 Alex Petrov
